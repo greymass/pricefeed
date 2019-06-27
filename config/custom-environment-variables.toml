@@ -1,0 +1,8 @@
+eosio_chain = 'EOSIO_CHAIN'
+eosio_node = 'EOSIO_NODE'
+eosio_auth = 'EOSIO_AUTH'
+eosio_key = 'EOSIO_KEY'
+oracle_contract = 'ORACLE_CONTRACT'
+[log]
+__name = 'LOG_STREAMS'
+__format = 'json'

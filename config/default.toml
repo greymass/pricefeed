@@ -1,0 +1,27 @@
+# default configuration, override in config/local.toml or with env vars
+
+# application name used for logging and service namespace
+name = 'greymass-pricefeed'
+
+# eosio chain to use, jungle default
+eosio_chain = 'e70aaab8997e1dfce58fbfac80cbbb8fecec7b99cf982a9444273cbc64c41473'
+
+# eosio rpc node used to transact, aloha jungle default
+eosio_node = 'https://api.jungle.alohaeos.com'
+
+# authorization, required
+# eosio_auth = 'accountname@permission'
+
+# signing private key, required
+# eosio_key = '5contractspecifickeynotactiveplz'
+
+# oracle contract account name
+oracle_contract = 'delphioracle'
+
+# how often to publish feed, note that contract allows max once per minute
+update_interval = 90 # seconds
+
+# logging output, can be repeated
+[[log]]
+level = 'debug'
+out = 'stdout' # path or stdout/err
