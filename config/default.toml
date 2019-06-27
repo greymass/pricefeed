@@ -19,7 +19,7 @@ eosio_node = 'https://api.jungle.alohaeos.com'
 oracle_contract = 'delphioracle'
 
 # how often to publish feed, note that contract allows max once per minute
-update_interval = 90 # seconds
+update_interval = 60 # seconds
 
 # logging output, can be repeated
 [[log]]
