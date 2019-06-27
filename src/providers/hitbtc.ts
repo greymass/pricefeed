@@ -6,7 +6,7 @@ export default class HitBTCProvider implements PriceProvider {
     name = 'HitBTC'
 
     async getPair(name: string) {
-        const res = await fetch(`https://api.hitbtc.com/api/2/public/ticker/${ name }`)
+        const res = await fetch(`https://api.hitbtc.com/api/2/public/ticker/${name}`)
         if (!res.ok) {
             throw new Error('Not OK: ' + res.statusText)
         }
@@ -18,10 +18,13 @@ export default class HitBTCProvider implements PriceProvider {
     }
 
     async run() {
-        const usd = await this.getPair('EOSUSD')
-        return [{
-            pair: 'eosusd', volume: usd.volume, price: usd.price,
-        }]
+        const [usd, btc] = await Promise.all([
+            this.getPair('EOSUSD'), this.getPair('EOSBTC')
+        ])
+        return [
+            { pair: 'eosusd', volume: usd.volume, price: usd.price },
+            { pair: 'eosbtc', volume: btc.volume * 1e4, price: btc.price * 1e4 }
+        ]
     }
 
 }

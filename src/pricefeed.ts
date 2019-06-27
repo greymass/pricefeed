@@ -40,7 +40,7 @@ async function write(quotes: Quote[]) {
         }
     }
     logger.debug({ action }, 'writing feed')
-    await apiClient.transact(
+    const res = await apiClient.transact(
         { actions: [action] },
         {
             sign: true,
@@ -49,6 +49,7 @@ async function write(quotes: Quote[]) {
             expireSeconds: 30,
         }
     )
+    logger.debug({txn: res.transaction_id}, 'feed written')
 }
 
 async function runProvider(provider: PriceProvider) {
@@ -58,6 +59,7 @@ async function runProvider(provider: PriceProvider) {
         return info
     } catch (error) {
         logger.warn(error, 'unable to get prices from %s', provider.name)
+        return []
     }
 }
 

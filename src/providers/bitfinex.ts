@@ -21,10 +21,13 @@ export default class BitfinexProvider implements PriceProvider {
     }
 
     async run() {
-        const usd = await this.getPair('EOSUSD')
-        return [{
-            pair: 'eosusd', volume: usd.volume, price: usd.price,
-        }]
+        const [usd, btc] = await Promise.all([
+            this.getPair('EOSUSD'), this.getPair('EOSBTC')
+        ])
+        return [
+            {pair: 'eosusd', volume: usd.volume, price: usd.price},
+            {pair: 'eosbtc', volume: btc.volume * 1e4, price: btc.price * 1e4},
+        ]
     }
 
 }
