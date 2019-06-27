@@ -51,12 +51,19 @@ async function write(quotes: Quote[]) {
     )
 }
 
-async function runProviders() {
-    // FUTURE: limit number of providers we run in parallel here
-    const prices = await Promise.all(providers.map((provider) => provider.run().then((info) => {
+async function runProvider(provider: PriceProvider) {
+    try {
+        const info = await provider.run()
         logger.debug({ info }, 'provider %s', provider.name)
         return info
-    })))
+    } catch (error) {
+        logger.warn(error, 'unable to get prices from %s', provider.name)
+    }
+}
+
+async function runProviders() {
+    // FUTURE: limit number of providers we run in parallel here
+    const prices = await Promise.all(providers.map(runProvider))
     return prices.flat()
 }
 
