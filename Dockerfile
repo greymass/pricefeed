@@ -5,6 +5,7 @@ WORKDIR /app
 # install build dependencies
 RUN apk add --no-cache \
     bash \
+    git \
     make
 
 # install application dependencies

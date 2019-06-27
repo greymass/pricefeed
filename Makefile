@@ -7,11 +7,12 @@ SRC_FILES := $(shell find src -name '*.ts')
 define VERSION_TEMPLATE
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = '$(shell node -p 'require("./package.json").version')';
+exports.default = "$(shell node -p 'require("./package.json").version')-$(shell git rev-parse --short HEAD)";
 endef
 
 all: lib
 
+export VERSION_TEMPLATE
 lib: $(SRC_FILES) node_modules tsconfig.json
 	tsc -p tsconfig.json --outDir lib && \
 	echo "$$VERSION_TEMPLATE" > lib/version.js && \
