@@ -1,8 +1,8 @@
 import * as assert from 'assert'
 import * as config from 'config'
-import {version} from '../package.json'
 import {logger} from './common'
 import updatePricefeed from './pricefeed'
+import version from './version'
 
 export async function main() {
     logger.info({version}, 'starting')

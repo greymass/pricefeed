@@ -4,10 +4,18 @@ PATH  := ./node_modules/.bin:$(PATH)
 
 SRC_FILES := $(shell find src -name '*.ts')
 
+define VERSION_TEMPLATE
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = '$(shell node -p 'require("./package.json").version')';
+endef
+
 all: lib
 
 lib: $(SRC_FILES) node_modules tsconfig.json
-	tsc -p tsconfig.json --outDir lib && touch lib
+	tsc -p tsconfig.json --outDir lib && \
+	echo "$$VERSION_TEMPLATE" > lib/version.js && \
+	touch lib
 
 .PHONY: dev
 dev: node_modules
