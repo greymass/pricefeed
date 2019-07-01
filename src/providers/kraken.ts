@@ -6,7 +6,7 @@ export default class KrakenProvider implements PriceProvider {
     name = 'Kraken'
 
     async getPair(name: string) {
-        const res = await fetch(`https://api.kraken.com/0/public/Ticker?pair=${ name }`)
+        const res = await fetch(`https://api.kraken.com/0/public/Ticker?pair=${name}`)
         if (!res.ok) {
             throw new Error('Not OK: ' + res.statusText)
         }
@@ -21,13 +21,13 @@ export default class KrakenProvider implements PriceProvider {
     }
 
     async run() {
-        const [usd, btc] = await Promise.all([
-            this.getPair('EOSUSD'), this.getPair('EOSXBT')
+        const [usd, btc, btcusd] = await Promise.all([
+            this.getPair('EOSUSD'), this.getPair('EOSXBT'), this.getPair('XXBTZUSD')
         ])
         return [
             { pair: 'eosusd', volume: usd.volume, price: usd.price },
-            { pair: 'eosbtc', volume: btc.volume * 1e4, price: btc.price * 1e4 }
+            { pair: 'eosbtc', volume: btc.volume * 1e4, price: btc.price * 1e4 },
+            { pair: 'btcusd', volume: btcusd.volume, price: btcusd.price },
         ]
     }
-
 }

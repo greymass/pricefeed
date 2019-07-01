@@ -6,11 +6,13 @@ import { PriceInfo, PriceProvider } from './price-provider'
 import Bitfinex from './providers/bitfinex'
 import HitBTC from './providers/hitbtc'
 import Kraken from './providers/kraken'
+import RealtimeBitcoin from './providers/realtimebitcoin'
 
 const providers: PriceProvider[] = [
     new Bitfinex(),
     new HitBTC(),
     new Kraken(),
+    new RealtimeBitcoin(),
 ]
 
 const EOSIO_AUTH = config.get('eosio_auth') as string
@@ -49,7 +51,7 @@ async function write(quotes: Quote[]) {
             expireSeconds: 30,
         }
     )
-    logger.debug({txn: res.transaction_id}, 'feed written')
+    logger.debug({ txn: res.transaction_id }, 'feed written')
 }
 
 async function runProvider(provider: PriceProvider) {
