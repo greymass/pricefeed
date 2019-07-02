@@ -1,0 +1,7 @@
+version: '2'
+services:
+  pricefeed:
+    env_file:
+      - .env
+    build: .
+    restart: on-failure
