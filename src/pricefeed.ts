@@ -15,6 +15,13 @@ const providers: PriceProvider[] = [
     new RealtimeBitcoin(),
 ]
 
+function parseAuth(auth: string) {
+    assert.equal(typeof auth, 'string', 'invalid auth')
+    assert(auth.includes('@'), 'invalid auth')
+    const [actor, permission] = auth.split('@')
+    return {actor, permission}
+}
+
 const EOSIO_AUTH = config.get('eosio_auth') as string
 assert.equal(typeof EOSIO_AUTH, 'string', 'invalid EOSIO_AUTH')
 assert(EOSIO_AUTH.includes('@'), 'invalid EOSIO_AUTH')
@@ -22,6 +29,12 @@ const [EOSIO_AUTH_ACCOUNT, EOSIO_AUTH_PERMISSION] = EOSIO_AUTH.split('@')
 
 const ORACLE_CONTRACT = config.get('oracle_contract') as string
 assert.equal(typeof ORACLE_CONTRACT, 'string', 'invalid ORACLE_CONTRACT')
+
+const authorization = [parseAuth(config.get('eosio_auth'))]
+
+if (config.has('eosio_cosigner_auth')) {
+    authorization.unshift(parseAuth(config.get('eosio_cosigner_auth')))
+}
 
 interface Quote {
     pair: string
@@ -32,10 +45,7 @@ async function write(quotes: Quote[]) {
     const action = {
         account: ORACLE_CONTRACT,
         name: 'write',
-        authorization: [{
-            actor: EOSIO_AUTH_ACCOUNT,
-            permission: EOSIO_AUTH_PERMISSION
-        }],
+        authorization,
         data: {
             owner: EOSIO_AUTH_ACCOUNT,
             quotes,

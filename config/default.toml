@@ -15,6 +15,10 @@ eosio_node = 'https://api.jungle.alohaeos.com'
 # signing private key, required
 # eosio_key = '5contractspecifickeynotactiveplz'
 
+# cosigner, optional
+# eosio_cosigner_auth = 'cosigner@permission'
+# eosio_cosigner_key = '5cosigncosigncosign'
+
 # oracle contract account name
 oracle_contract = 'delphioracle'
 

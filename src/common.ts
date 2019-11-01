@@ -9,9 +9,17 @@ export const rpcClient = new JsonRpc(config.get('eosio_node'), {
     fetch: fetch as any
 })
 
-export const signatureProvider = new JsSignatureProvider([
+const signingKeys: string[] = [
     config.get('eosio_key')
-])
+]
+
+if (config.has('eosio_cosigner_key')) {
+    signingKeys.push(config.get('eosio_cosigner_key'))
+}
+
+export const signatureProvider = new JsSignatureProvider(
+    signingKeys
+)
 
 export const apiClient = new Api({
     rpc: rpcClient,

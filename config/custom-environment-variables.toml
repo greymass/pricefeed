@@ -2,6 +2,8 @@ eosio_chain = 'EOSIO_CHAIN'
 eosio_node = 'EOSIO_NODE'
 eosio_auth = 'EOSIO_AUTH'
 eosio_key = 'EOSIO_KEY'
+eosio_cosigner_auth = 'EOSIO_COSIGNER_AUTH'
+eosio_cosigner_key = 'EOSIO_COSIGNER_KEY'
 oracle_contract = 'ORACLE_CONTRACT'
 update_interval = 'UPDATE_INTERVAL'
 [log]
