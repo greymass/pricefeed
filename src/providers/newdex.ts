@@ -28,7 +28,7 @@ export default class NewdexProvider implements PriceProvider {
             this.getPair('vig111111111-vig-eos'),
         ])
         return [
-            { pair: 'emteos', volume: emt.volume, price: emt.price },
+            { pair: 'eosemt', volume: emt.volume, price: emt.price },
             { pair: 'vigeos', volume: vig.volume, price: vig.price * 1e4 },
         ]
     }
