@@ -21,7 +21,7 @@ export default class KrakenProvider implements PriceProvider {
     }
 
     async run() {
-        const [usd, btc, usdbtc] = await Promise.all([
+        const [usd, btc] = await Promise.all([
             this.getPair('usdt-waxp'), this.getPair('btc-waxp')
         ])
         return [
