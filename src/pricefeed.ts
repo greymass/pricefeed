@@ -4,17 +4,14 @@ import { apiClient, logger } from './common'
 import { PriceInfo, PriceProvider } from './price-provider'
 
 import Bitfinex from './providers/bitfinex'
+import Bittrex from './providers/bittrex'
 import HitBTC from './providers/hitbtc'
 import Kraken from './providers/kraken'
 import Newdex from './providers/newdex'
 import RealtimeBitcoin from './providers/realtimebitcoin'
 
 const providers: PriceProvider[] = [
-    new Bitfinex(),
-    new HitBTC(),
-    new Kraken(),
-    new Newdex(),
-    new RealtimeBitcoin(),
+    new Bittrex(),
 ]
 
 function parseAuth(auth: string) {
