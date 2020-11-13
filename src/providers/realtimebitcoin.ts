@@ -5,7 +5,7 @@ export default class KrakenProvider implements PriceProvider {
     name = 'Realtime Bitcoin'
 
     async run() {
-        const res = await fetch('https://realtimebitcoin.info/stats')
+        const res = await fetch('https://realtimebitcoin.org/stats')
         if (!res.ok) {
             throw new Error('Not OK: ' + res.statusText)
         }
