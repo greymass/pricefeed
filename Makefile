@@ -24,7 +24,7 @@ dev: node_modules
 
 .PHONY: lint
 lint: node_modules
-	tslint -p tsconfig.json -c tslint.json -t stylish --fix
+	@eslint src --ext .ts --fix
 
 node_modules: package.json
 	yarn install --non-interactive --frozen-lockfile
