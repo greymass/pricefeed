@@ -1,10 +1,9 @@
 //
 
 import fetch from 'node-fetch'
-import { PriceProvider } from '../price-provider'
+import {PriceProvider} from '../price-provider'
 
 export default class NewdexProvider implements PriceProvider {
-
     name = 'Newdex'
 
     async getPair(name: string) {
@@ -29,9 +28,9 @@ export default class NewdexProvider implements PriceProvider {
             this.getPair('eosio.token-eos-vigor'),
         ])
         return [
-            { pair: 'eosemt', volume: emt.volume, price: emt.price },
-            { pair: 'vigeos', volume: vig.volume, price: vig.price * 1e4 },
-            { pair: 'eosvigor', volume: vigor.volume, price: vigor.price },
+            {pair: 'eosemt', volume: emt.volume, price: emt.price},
+            {pair: 'vigeos', volume: vig.volume, price: vig.price * 1e4},
+            {pair: 'eosvigor', volume: vigor.volume, price: vigor.price},
         ]
     }
 }

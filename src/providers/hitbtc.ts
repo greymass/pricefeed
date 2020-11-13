@@ -1,8 +1,7 @@
 import fetch from 'node-fetch'
-import { PriceProvider } from '../price-provider'
+import {PriceProvider} from '../price-provider'
 
 export default class HitBTCProvider implements PriceProvider {
-
     name = 'HitBTC'
 
     async getPair(name: string) {
@@ -13,19 +12,20 @@ export default class HitBTCProvider implements PriceProvider {
         const data = await res.json()
         return {
             volume: parseFloat(data.volume),
-            price: (parseFloat(data.ask) + parseFloat(data.bid)) / 2
+            price: (parseFloat(data.ask) + parseFloat(data.bid)) / 2,
         }
     }
 
     async run() {
         const [usd, btc, btcusd] = await Promise.all([
-            this.getPair('EOSUSD'), this.getPair('EOSBTC'), this.getPair('BTCUSD')
+            this.getPair('EOSUSD'),
+            this.getPair('EOSBTC'),
+            this.getPair('BTCUSD'),
         ])
         return [
-            { pair: 'eosusd', volume: usd.volume, price: usd.price },
-            { pair: 'eosbtc', volume: btc.volume * 1e4, price: btc.price * 1e4 },
-            { pair: 'btcusd', volume: btcusd.volume, price: btcusd.price },
+            {pair: 'eosusd', volume: usd.volume, price: usd.price},
+            {pair: 'eosbtc', volume: btc.volume * 1e4, price: btc.price * 1e4},
+            {pair: 'btcusd', volume: btcusd.volume, price: btcusd.price},
         ]
     }
-
 }

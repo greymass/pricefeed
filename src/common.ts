@@ -6,20 +6,16 @@ import * as fetch from 'node-fetch'
 import {TextDecoder, TextEncoder} from 'util'
 
 export const rpcClient = new JsonRpc(config.get('eosio_node'), {
-    fetch: fetch as any
+    fetch: fetch as any,
 })
 
-const signingKeys: string[] = [
-    config.get('eosio_key')
-]
+const signingKeys: string[] = [config.get('eosio_key')]
 
 if (config.has('eosio_cosigner_key')) {
     signingKeys.push(config.get('eosio_cosigner_key'))
 }
 
-export const signatureProvider = new JsSignatureProvider(
-    signingKeys
-)
+export const signatureProvider = new JsSignatureProvider(signingKeys)
 
 export const apiClient = new Api({
     rpc: rpcClient,
@@ -39,5 +35,5 @@ export const logger = bunyan.createLogger({
         } else {
             return {level, path: out}
         }
-    })
+    }),
 })

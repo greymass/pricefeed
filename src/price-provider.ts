@@ -1,4 +1,3 @@
-
 export interface PriceInfo {
     /** Price pair, e.g. eosusd */
     pair: string
@@ -9,7 +8,6 @@ export interface PriceInfo {
     price: number
     /** 24-hour trade volume of pair from source. */
     volume: number
-
 }
 
 export interface PriceProvider {

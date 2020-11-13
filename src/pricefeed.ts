@@ -1,7 +1,7 @@
 import * as assert from 'assert'
 import * as config from 'config'
-import { apiClient, logger } from './common'
-import { PriceInfo, PriceProvider } from './price-provider'
+import {apiClient, logger} from './common'
+import {PriceProvider} from './price-provider'
 
 import Bitfinex from './providers/bitfinex'
 import HitBTC from './providers/hitbtc'
@@ -27,7 +27,6 @@ function parseAuth(auth: string) {
 const EOSIO_AUTH = config.get('eosio_auth') as string
 assert.equal(typeof EOSIO_AUTH, 'string', 'invalid EOSIO_AUTH')
 assert(EOSIO_AUTH.includes('@'), 'invalid EOSIO_AUTH')
-const [EOSIO_AUTH_ACCOUNT, EOSIO_AUTH_PERMISSION] = EOSIO_AUTH.split('@')
 
 const ORACLE_CONTRACT = config.get('oracle_contract') as string
 assert.equal(typeof ORACLE_CONTRACT, 'string', 'invalid ORACLE_CONTRACT')
@@ -49,13 +48,13 @@ async function write(quotes: Quote[]) {
         name: 'write',
         authorization,
         data: {
-            owner: EOSIO_AUTH_ACCOUNT,
+            owner: authorization[authorization.length - 1].actor,
             quotes,
-        }
+        },
     }
-    logger.debug({ action }, 'writing feed')
+    logger.debug({action}, 'writing feed')
     const res = await apiClient.transact(
-        { actions: [action] },
+        {actions: [action]},
         {
             sign: true,
             broadcast: true,
@@ -63,13 +62,13 @@ async function write(quotes: Quote[]) {
             expireSeconds: 30,
         }
     )
-    logger.debug({ txn: res.transaction_id }, 'feed written')
+    logger.debug({txn: res.transaction_id}, 'feed written')
 }
 
 async function runProvider(provider: PriceProvider) {
     try {
         const info = await provider.run()
-        logger.debug({ info }, 'provider %s', provider.name)
+        logger.debug({info}, 'provider %s', provider.name)
         return info
     } catch (error) {
         logger.warn(error, 'unable to get prices from %s', provider.name)
@@ -86,12 +85,12 @@ async function runProviders() {
 export default async function update() {
     logger.debug('updating pricefeed')
     const prices = await runProviders()
-    const pairs: { [name: string]: { volume: number, value: number } } = {}
+    const pairs: {[name: string]: {volume: number; value: number}} = {}
     for (const price of prices) {
         if (!pairs[price.pair]) {
             pairs[price.pair] = {
                 volume: price.volume,
-                value: price.price * price.volume
+                value: price.price * price.volume,
             }
         } else {
             pairs[price.pair].volume += price.volume
@@ -101,8 +100,8 @@ export default async function update() {
     const quotes: Quote[] = []
     for (const pair of Object.keys(pairs)) {
         const price = pairs[pair].value / pairs[pair].volume
-        logger.info({ price, volume: pairs[pair].volume }, 'pair %s', pair)
-        quotes.push({ pair, value: Math.round(price * 1e4) })
+        logger.info({price, volume: pairs[pair].volume}, 'pair %s', pair)
+        quotes.push({pair, value: Math.round(price * 1e4)})
     }
     await write(quotes)
 }
