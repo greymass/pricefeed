@@ -4,21 +4,19 @@ import { apiClient, logger } from './common'
 import { PriceInfo, PriceProvider } from './price-provider'
 
 import Bitfinex from './providers/bitfinex'
-import Bittrex from './providers/bittrex'
+import Binance from './providers/binance'
 import HitBTC from './providers/hitbtc'
 import Kraken from './providers/kraken'
 import Newdex from './providers/newdex'
 import RealtimeBitcoin from './providers/realtimebitcoin'
 
-const providers: PriceProvider[] = [
-    new Bittrex(),
-]
+const providers: PriceProvider[] = [new Binance()]
 
 function parseAuth(auth: string) {
     assert.equal(typeof auth, 'string', 'invalid auth')
     assert(auth.includes('@'), 'invalid auth')
     const [actor, permission] = auth.split('@')
-    return {actor, permission}
+    return { actor, permission }
 }
 
 const EOSIO_AUTH = config.get('eosio_auth') as string
@@ -48,7 +46,7 @@ async function write(quotes: Quote[]) {
         data: {
             owner: EOSIO_AUTH_ACCOUNT,
             quotes,
-        }
+        },
     }
     logger.debug({ action }, 'writing feed')
     const res = await apiClient.transact(
@@ -83,12 +81,12 @@ async function runProviders() {
 export default async function update() {
     logger.debug('updating pricefeed')
     const prices = await runProviders()
-    const pairs: { [name: string]: { volume: number, value: number } } = {}
+    const pairs: { [name: string]: { volume: number; value: number } } = {}
     for (const price of prices) {
         if (!pairs[price.pair]) {
             pairs[price.pair] = {
                 volume: price.volume,
-                value: price.price * price.volume
+                value: price.price * price.volume,
             }
         } else {
             pairs[price.pair].volume += price.volume
