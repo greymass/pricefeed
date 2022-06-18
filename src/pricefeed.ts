@@ -101,7 +101,9 @@ export default async function update() {
     for (const pair of Object.keys(pairs)) {
         const price = pairs[pair].value / pairs[pair].volume
         logger.info({price, volume: pairs[pair].volume}, 'pair %s', pair)
-        quotes.push({pair, value: Math.round(price * 1e4)})
+        if (price > 0) {
+            quotes.push({pair, value: Math.round(price * 1e4)})
+        }
     }
     await write(quotes)
 }
