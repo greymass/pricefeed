@@ -1,6 +1,5 @@
-
-PATH  := $(PATH):$(PWD)/node_modules/.bin
-SHELL := env PATH=$(PATH) /bin/bash
+SHELL := /bin/bash
+PATH  := ./node_modules/.bin:$(PATH)
 
 SRC_FILES := $(shell find src -name '*.ts')
 
