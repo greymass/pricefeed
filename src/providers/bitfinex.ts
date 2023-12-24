@@ -23,7 +23,7 @@ export default class BitfinexProvider implements PriceProvider {
         ] = await res.json()
         return {
             volume: VOLUME,
-            price: (BID + ASK) / 2,
+            price: BID,
         }
     }
 
