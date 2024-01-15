@@ -10,8 +10,13 @@ import HitBTC from './providers/hitbtc'
 import Kraken from './providers/kraken'
 import Newdex from './providers/newdex'
 import RealtimeBitcoin from './providers/realtimebitcoin'
+import KucoinProvider from './providers/kucoin'
 
-const providers: PriceProvider[] = [new Binance(), new Bittrex()]
+const providers: PriceProvider[] = [
+    new Binance(), 
+    new Kraken(),
+    new KucoinProvider()
+]
 
 function parseAuth(auth: string) {
     assert.equal(typeof auth, 'string', 'invalid auth')
